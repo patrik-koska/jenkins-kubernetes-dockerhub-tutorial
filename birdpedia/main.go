@@ -3,14 +3,17 @@ package main
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func main() {
-	// We map the 'handler' function for every call onto '/'
-	http.HandleFunc("/", handler)
+	r := mux.NewRouter()
 
-	// As the serving is defined, we start listening on port 12111
-	http.ListenAndServe(":12111", nil)
+	r.HandleFunc("/hello", handler).Methods("GET")
+
+	// We can pass our router to the serving
+	http.ListenAndServe(":12111", r)
 }
 
 func handler(w http.ResponseWriter, r *http.Request) {
