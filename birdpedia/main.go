@@ -8,11 +8,8 @@ import (
 )
 
 func main() {
-	r := mux.NewRouter()
+	r := newRouter()
 
-	r.HandleFunc("/hello", handler).Methods("GET")
-
-	// We can pass our router to the serving
 	http.ListenAndServe(":12111", r)
 }
 
@@ -21,3 +18,8 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Hello, World!")
 }
 
+func newRouter() *mux.Router {
+	r := mux.NewRouter()
+	r.HandleFunc("/hello", handler).Methods("GET")
+	return r
+}
